@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>Library Management</title>
+</head>
+<body>
+<div align="center">	
+	<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+		
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="Logout" />
+	</form>
+	
+	<h1>Book List</h1>
+	<a href="bookForm">Add New Book</a>
+	
+	<br/><br/>
+	<table border="1" cellpadding="10">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Title</th>
+				<th>Author</th>	
+				<th>Edition</th>
+				<th>ISBN</th>
+				<th>Category</th>	
+				<th sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>				
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="book : ${booklist}">
+				<td th:text="${book.id}">ID</td>
+				<td th:text="${book.title}">Title</td>
+				<td th:text="${book.author}">Author</td>
+				<td th:text="${book.edition}">ID</td>
+				<td th:text="${book.isbn}">Title</td>
+				<td th:text="${book.category.name}">Author</td>
+				
+			
+				<td sec:authorize="hasRole('ROLE_ADMIN')">
+					<a th:href="@{'/editBook/' + ${book.id}}">Edit</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<a th:href="@{'/deleteBook/' + ${book.id}}">Delete</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
